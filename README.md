@@ -37,6 +37,11 @@ Then edit the `.env` file with your database configuration:
 ```bash
 # Database connection string
 DATABASE_URL=postgres://username:password@host:port/database_name
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/todos
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=todos
+PGUSER=postgres
 ```
 
 **Examples:**
@@ -45,6 +50,14 @@ DATABASE_URL=postgres://username:password@host:port/database_name
 - Cloud database: `DATABASE_URL=postgres://user:pass@db.example.com:5432/todos`
 
 **Important:** Never commit your `.env` file to version control as it contains sensitive information.
+
+To build the app Docker image run this command:
+
+```bash
+docker build -t devops-ci .
+```
+
+**Reminder:** this command will build the image from the Dockerfile located in the current directory (`./Dockerfile`)
 
 ### 3. Database Setup
 
