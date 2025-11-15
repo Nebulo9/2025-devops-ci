@@ -32,3 +32,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - run: pnpm test:e2e
+
+  build:
+    runs-on: ubuntu-22.04
+    needs:
+      - unit-tests
+      - e2e-tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 21
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - run: pnpm build
