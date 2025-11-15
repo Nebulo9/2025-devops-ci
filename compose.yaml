@@ -1,0 +1,32 @@
+services:
+    todo-postgres:
+      container_name: todo-postgres
+      image: devops-ci
+      build:
+        context: .
+        dockerfile: ./Dockerfile
+        tags:
+        - "devops-ci"
+      command: "pnpm db:generate && pnpm db:push && pnpm dev"
+      depends_on:
+        postgresql:
+          condition: service_healthy
+      ports:
+        - 3000:3000
+        - 6006:6006
+
+    postgresql:
+      container_name: postgres
+      image: postgres:15.15-alpine
+      env_file: ./.env
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=todos
+        - PGUSER=postgres
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready", "-d", "todos"]
+        interval: 30s
+        timeout: 60s
+        retries: 3
+        start_period: 30s
